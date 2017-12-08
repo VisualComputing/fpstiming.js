@@ -34,9 +34,9 @@ export default class TimingTask {
    * @param {number} period in milliseconds.
    */
   run(period) {
-    if (this._timer != null) {
-      this._timer().setSingleShot(false);
-      this._timer().run(period);
+    if (this.timer() != null) {
+      this.timer().setSingleShot(false);
+      this.timer().run(period);
     }
   }
 
@@ -45,9 +45,9 @@ export default class TimingTask {
    * @param {number} period in milliseconds.
    */
   runOnce(period) {
-    if (this._timer != null) {
-      this._timer().setSingleShot(true);
-      this._timer().run(period);
+    if (this.timer() != null) {
+      this.timer().setSingleShot(true);
+      this.timer().run(period);
     }
   }
 
@@ -55,8 +55,8 @@ export default class TimingTask {
    * Stops the {@link TimingTask#timer}.
    */
   stop() {
-    if (this._timer != null) {
-      this._timer().stop();
+    if (this.timer() != null) {
+      this.timer().stop();
     }
   }
 
@@ -64,8 +64,8 @@ export default class TimingTask {
    * Stops the {@link TimingTask#timer}.
    */
   cancel() {
-    if (this._timer != null) {
-      this._timer().cancel();
+    if (this.timer() != null) {
+      this.timer().cancel();
     }
   }
 
@@ -73,8 +73,8 @@ export default class TimingTask {
    * Creates the {@link TimingTask#timer}.
    */
   create() {
-    if (this._timer != null) {
-      this._timer().create();
+    if (this.timer() != null) {
+      this.timer().create();
     }
   }
 
@@ -83,8 +83,8 @@ export default class TimingTask {
    * @returns {boolean}
    */
   isActive() {
-    if (this._timer != null) {
-      return this._timer().isActive();
+    if (this.timer() != null) {
+      return this.timer().isActive();
     }
     return false;
   }
