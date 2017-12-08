@@ -297,10 +297,9 @@ class TimingHandler {
     this._taskPool = new Set();
     this._animatorPool = new Set();
     this._frameRateLastMillis = window.performance.now();
-    this._frameRate = 10;
-    this._frameCount = 0;
+    this.frameRate = 10;
     this._localCount = 0;
-    this._deltaCount = this._frameCount;
+    this._deltaCount = TimingHandler.frameCount;
   }
 
   /**
@@ -383,15 +382,15 @@ class TimingHandler {
       // update the current frameRate
       const rate = 1000.0 / ((now - this._frameRateLastMillis) / 1000.0);
       const instantaneousRate = rate / 1000.0;
-      this._frameRate = (this._frameRate * 0.9) + (instantaneousRate * 0.1);
+      this.frameRate = (this.frameRate * 0.9) + (instantaneousRate * 0.1);
     }
     this._frameRateLastMillis = now;
     this._localCount++;
     //TODO needs testing but I think is also safe and simpler
     //if (TimingHandler.frameCount < frameCount())
     //TimingHandler.frameCount = frameCount();
-    if (this._frameCount < this.frameCount() + this._deltaCount)
-      this._frameCount = this.frameCount() + this._deltaCount;
+    if (TimingHandler.frameCount < this.frameCount() + this._deltaCount)
+      TimingHandler.frameCount = this.frameCount() + this._deltaCount;
   }
 
   /**
@@ -401,7 +400,7 @@ class TimingHandler {
    * @returns {number} frame-rate
    */
   frameRate() {
-    return this._frameRate;
+    return this.frameRate;
   }
 
   /**
@@ -469,6 +468,8 @@ class TimingHandler {
     this._animatorPool.has(object);
   }
 }
+// static field
+TimingHandler.frameCount = 0;
 
 /**
  * An abstract wrapper class holding a {@link TimingTask#timer} together with its callback method
