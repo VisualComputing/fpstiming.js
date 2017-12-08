@@ -17,9 +17,8 @@ export default class TimingHandler {
     this._animatorPool = new Set();
     this._frameRateLastMillis = window.performance.now();
     this._frameRate = 10;
-    this._frameCount = 0;
     this._localCount = 0;
-    this._deltaCount = this._frameCount;
+    this._deltaCount = TimingHandler.frameCount;
   }
 
   /**
@@ -99,7 +98,7 @@ export default class TimingHandler {
   _updateFrameRate() {
     const now = window.performance.now();
     if (this._localCount > 1) {
-      // update the current frameRate
+      // update the current _frameRate
       const rate = 1000.0 / ((now - this._frameRateLastMillis) / 1000.0);
       const instantaneousRate = rate / 1000.0;
       this._frameRate = (this._frameRate * 0.9) + (instantaneousRate * 0.1);
@@ -109,8 +108,8 @@ export default class TimingHandler {
     //TODO needs testing but I think is also safe and simpler
     //if (TimingHandler.frameCount < frameCount())
     //TimingHandler.frameCount = frameCount();
-    if (this._frameCount < this.frameCount() + this._deltaCount)
-      this._frameCount = this.frameCount() + this._deltaCount;
+    if (TimingHandler.frameCount < this.frameCount() + this._deltaCount)
+      TimingHandler.frameCount = this.frameCount() + this._deltaCount;
   }
 
   /**
@@ -188,3 +187,5 @@ export default class TimingHandler {
     this._animatorPool.has(object);
   }
 }
+// static field
+TimingHandler.frameCount = 0;
