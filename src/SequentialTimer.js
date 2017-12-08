@@ -89,7 +89,7 @@ export default class SequentialTimer {
     let result = false;
 
     const elapsedTime = window.performance.now() - this._startTime;
-    const timePerFrame = (1 / this._handler.frameRate) * 1000;
+    const timePerFrame = (1 / this._handler.frameRate()) * 1000;
     const threshold = this._counter * this._period;
 
     if (threshold >= elapsedTime) {

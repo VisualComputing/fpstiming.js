@@ -95,7 +95,7 @@ class SequentialTimer {
     let result = false;
 
     const elapsedTime = window.performance.now() - this._startTime;
-    const timePerFrame = (1 / this._handler.frameRate) * 1000;
+    const timePerFrame = (1 / this._handler.frameRate()) * 1000;
     const threshold = this._counter * this._period;
 
     if (threshold >= elapsedTime) {
@@ -297,7 +297,7 @@ class TimingHandler {
     this._taskPool = new Set();
     this._animatorPool = new Set();
     this._frameRateLastMillis = window.performance.now();
-    this.frameRate = 10;
+    this._frameRate = 10;
     this._localCount = 0;
     this._deltaCount = TimingHandler.frameCount;
   }
@@ -379,10 +379,10 @@ class TimingHandler {
   _updateFrameRate() {
     const now = window.performance.now();
     if (this._localCount > 1) {
-      // update the current frameRate
+      // update the current _frameRate
       const rate = 1000.0 / ((now - this._frameRateLastMillis) / 1000.0);
       const instantaneousRate = rate / 1000.0;
-      this.frameRate = (this.frameRate * 0.9) + (instantaneousRate * 0.1);
+      this._frameRate = (this._frameRate * 0.9) + (instantaneousRate * 0.1);
     }
     this._frameRateLastMillis = now;
     this._localCount++;
@@ -400,7 +400,7 @@ class TimingHandler {
    * @returns {number} frame-rate
    */
   frameRate() {
-    return this.frameRate;
+    return this._frameRate;
   }
 
   /**
